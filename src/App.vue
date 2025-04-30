@@ -7,7 +7,7 @@
         <template v-for="(toDoItem, i) in toDoArray" :key="i">
           <div class="form-check">
 
-            <input class="form-check-input" type="checkbox" :value="toDoItem" id="flexCheckDefault" ref="checkboxRefs"
+            <input class="form-check-input" type="checkbox" :value="toDoItem" id="flexCheckDefault" v-model="checkbox"
               @change="toggleCheck(i)">
             <label class="form-check-label" for="flexCheckDefault">
               {{ toDoItem }}
@@ -16,10 +16,10 @@
               <i class="bi bi-x"></i></button>
           </div>
         </template>
-        <input v-show="isAdd" @blur="addItem()" @keyup.enter="addItem()" v-model="addInput" class="form-control"
+        <input v-show="isAdd" @blur="addItem()" @keyup.enter="addItem()" ref="addInputRef" class="form-control"
           type="text" placeholder="Take a note...">
         <p class="text-danger" v-show="isError">This TO DO already exists!</p>
-        <button class="btn btn-primary" @click="showAddInput()">+Add Item</button>
+        <button class="btn btn-primary my-2" @click="showAddInput()">+ Add Item</button>
       </div>
       <div class="done col-6">
         <h2>DONE</h2>
@@ -45,10 +45,8 @@ import { ref, nextTick, onMounted } from "vue";
 const toDoArray = ref<string[]>([]);
 const doneArray = ref<string[]>([]);
 const isAdd = ref<boolean>(false);
-const addInput = ref<string>('');
-const checkbox = ref<string>('');
-// const addInputRef = ref<HTMLInputElement | null>(null);
-// const checkboxRefs = ref<HTMLInputElement[]>([]);
+const addInputRef = ref<HTMLInputElement | null>(null);
+const checkbox = ref<string[]>([]);
 const isError = ref<boolean>(false);
 
 function showAddInput() {
@@ -75,20 +73,20 @@ function addItem() {
 
 
 function toggleCheck(i) {
-  console.log(checkboxRefs.value.checked);
+  console.log(checkbox.value);
 
-  if (checkboxRefs.value.checked) {
+  // if (checkbox.value.checked) {
 
-    doneArray.value.push(toDoArray.value.value);
-    toDoArray.value.splice(i, 1)
-    checkboxRefs.value.checked = false;
-    console.log('donearray', doneArray.value);
-  } else {
-    toDoArray.value.push(doneArray.value.value);
-    doneArray.value.splice(i, 1)
-    checkboxRefs.value.checked = true;
-    console.log('todoarray', toDoArray.value);
-  }
+  //   doneArray.value.push(toDoArray.value.value);
+  //   toDoArray.value.splice(i, 1)
+  //   checkbox.value.checked = false;
+  //   console.log('donearray', doneArray.value);
+  // } else {
+  //   toDoArray.value.push(doneArray.value.value);
+  //   doneArray.value.splice(i, 1)
+  //   checkbox.value.checked = true;
+  //   console.log('todoarray', toDoArray.value);
+  // }
 }
 
 function deleteItem(i, arrayName) {
